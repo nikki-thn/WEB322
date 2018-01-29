@@ -1,0 +1,16 @@
+body {
+    background-color: #fff0f0;
+}
+
+p {
+    font-family: 'Oxygen', sans-serif;
+}
+
+h2 {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.container-fluid {
+    background-color: #ffcccc;
+    font-weight: bold;
+}
