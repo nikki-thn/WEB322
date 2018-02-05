@@ -50,4 +50,13 @@ app.get("*", function(req,res){
 });
 
 // setup http server to listen on HTTP_PORT
-app.listen(HTTP_PORT, onHttpStart);
+dataService.initialize()
+    .then(function(msg) {
+        console.log(msg);
+        app.listen(HTTP_PORT, onHttpStart);
+    })
+    .catch(function(msg) {
+        console.log(msg);
+    })
+;
+
