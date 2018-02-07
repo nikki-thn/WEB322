@@ -1,7 +1,8 @@
 var express = require("express");
+var app = express();
 var path = require("path");
 var dataService = require("./data-service.js");
-var app = express();
+
 
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -38,16 +39,24 @@ app.get("/employees", function (req, res) {
         })
 });
 
-
 // setup route to listen on /managers
 app.get("/managers", function (req, res) {
-    res.send("return is isManager == true");
+    dataService.getManagers()
+        .then(function(data){
+            res.send(data);
+        }).catch(function(msg){
+            console.log(msg);
+        })
 });
 
 // setup route to listen on /departments
 app.get("/departments", function (req, res) {
-    dataService.getDepartments();
-    res.send("return departments");
+    dataService.getDepartments()
+    .then(function(data){
+        res.send(data);
+    }).catch(function(msg){
+        console.log(msg);
+    })
 });
 
 // setup route to listen on /departments
@@ -58,11 +67,9 @@ app.get("*", function (req, res) {
 // setup http server to listen on HTTP_PORT
 dataService.initialize()
     .then(function (data) {
-        //console.log(data);
         app.listen(HTTP_PORT, onHttpStart);
     })
     .catch(function (msg) {
         console.log(msg);
-    })
-    ;
+    });
 
