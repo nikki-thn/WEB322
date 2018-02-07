@@ -14,14 +14,15 @@ module.exports.initialize = function () {
             fs.readFile('./data/employees.json', (err, data) => {
                 if (err) throw "Read in employees failed";
                 employees = JSON.parse(data);
-                resolve(); //return resolve when read in sucessfully
-            });
-            //read in departments
+
+                    //read in departments
             fs.readFile("./data/departments.json", function (err, data) {
                 if (err) throw "Read in dapartments failed";
                 departments = JSON.parse(data);
-                resolve(); //return resolve when read in sucessfully
             });
+   
+            });
+                     resolve(); //return resolve when read in sucessfully
         }
         catch (ex) {
             reject("Read in file fail"); //return reject wth error message when read in fail
@@ -48,7 +49,7 @@ module.exports.getAllEmployees = function () {
 
         //promise must have a resolve()
         function (resolve, reject) {
-            if (emloyees.length != 0) {
+            if (employees.length != 0) {
             resolve(employees);
             }
             else {
