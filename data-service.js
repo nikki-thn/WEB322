@@ -1,77 +1,63 @@
 var employees = [];
 var departments = [];
-var file = require("fs");
-var string =  "hello";
+var fs = require("fs");
+var string = "hello";
 
-function initialize() {
+module.exports.initialize = function () {
 
+    //return a new promise
     return new Promise(function (resolve, reject) {
-        
+
+        //read in JSON file
         try {
-            file.readFile("./data/employees.json", function (err, data) {
+            //read in employees
+            fs.readFile('./data/employees.json', (err, data) => {
                 if (err) throw err;
                 employees = JSON.parse(data);
-        /*         for (var i = 0; i< 10; i++){
-                    console.log(employees[i]);
-                } */
-                
-
+                resolve(); //return resolve when read in sucessfully
             });
-            file.readFile("./data/departments.json", function (err, data) {
+            //read in departments
+            fs.readFile("./data/departments.json", function (err, data) {
                 if (err) throw err;
                 departments = JSON.parse(data);
-                //console.log(employees);
-            }); 
-            resolve("file read in sucessfully");
+                resolve(); //return resolve when read in sucessfully
+            });
         }
         catch (ex) {
             console.log(ex);
-            reject("Read in fail");
+            reject("Read in file fail");
         }
     });
-}
-
-initialize()
-    .then(function(msg) {
-        for (var i = 0; i< 10; i++)
-            console.log(employees[i]);
-        console.log(msg);})
-    .catch(() => console.log(msg));
-;
+};
 
 
-function getAllEmployees() {
 
-    var arrEmployees = [];
+
+
+
+module.exports.getAllEmployees = function () {
+
     //function returns a promise
     return new Promise(
-        
+
         //promise must have a resolve()
         function (resolve, reject) {
-            for (var i = 0; i< 10; i++){
-                console.log(employees[i]);
-            }
-         /*    for (var i = 0; i < employees.length; i++) {
-                arrEmployees.push(employees[i]);
-            }
-            if (employees.length == 0) {
-                reject("No result returned")
-            }
-            resolve(arrEmployees); */
-    });
-}
+            resolve(employees);
+        });
+};
 
 
-function getManagers() {
 
-}
+// function getManagers() {
 
-function getDepartments() {
+// }
 
-}
+// function getDepartments() {
 
-//test();
-//initialize();
-//getAllEmployees();
-//References:
-//https://stackoverflow.com/questions/10058814/get-data-from-fs-readfile
+// }
+
+// //test();
+// initialize();
+// //getAllEmployees();
+// //References:
+// //https://stackoverflow.com/questions/10058814/get-data-from-fs-readfile
