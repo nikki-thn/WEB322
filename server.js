@@ -1,3 +1,18 @@
+/*********************************************************************************
+* WEB322 – Assignment 02
+* I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
+* of this assignment has been copied manually or electronically from any other source
+* (including 3rd party web sites) or distributed to other students.
+*
+* Name: Nikki Truong
+* Student ID: 112 314 174
+* Date: February 8, 2018
+*
+* Online (Heroku) Link: https://rocky-lake-84165.herokuapp.com
+*
+********************************************************************************/ 
+
+
 var express = require("express");
 var app = express();
 var path = require("path");
@@ -33,7 +48,7 @@ app.get("/about", function (req, res) {
 app.get("/employees", function (req, res) {
     dataService.getAllEmployees()
         .then(function (data) {
-            res.send(data);
+            res.json(data);
         }).catch(function (msg) {
             console.log(msg);
         })
@@ -43,7 +58,7 @@ app.get("/employees", function (req, res) {
 app.get("/managers", function (req, res) {
     dataService.getManagers()
         .then(function(data){
-            res.send(data);
+            res.json(data);
         }).catch(function(msg){
             console.log(msg);
         })
@@ -53,7 +68,7 @@ app.get("/managers", function (req, res) {
 app.get("/departments", function (req, res) {
     dataService.getDepartments()
     .then(function(data){
-        res.send(data);
+        res.json(data);
     }).catch(function(msg){
         console.log(msg);
     })
