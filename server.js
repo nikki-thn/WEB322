@@ -18,7 +18,7 @@ var app = express();
 var path = require("path");
 var dataService = require("./data-service.js");
 var multer = require("multer");
-var fs = require("fs");
+var bodyParser = require("body-parser");
 
 
 var HTTP_PORT = process.env.PORT || 8080;
@@ -34,9 +34,6 @@ const storageDir = multer.diskStorage({
     destination: "./public/images/uploaded",
     filename: function (req, file, cb) {
       // we write the filename as the current date down to the millisecond
-      // in a large web service this would possibly cause a problem if two people
-      // uploaded an image at the exact same time. A better way would be to use GUID's for filenames.
-      // this is a simple example.
       cb(null, Date.now() + path.extname(file.originalname));
     }
 });
@@ -47,12 +44,15 @@ const upload = multer({ storage: storageDir});
 //for loading css
 app.use(express.static('public'));
 
+//to handle text-form submission from front-end
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // setup a 'route' to listen on the default url path (http://localhost)
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/home.html"));
 });
 
-// setup another route to listen on /about
+// setup another route to listen on /home
 app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/home.html"));
 });
@@ -64,7 +64,39 @@ app.get("/about", (req, res) => {
 
 // setup route to listen on /employees
 app.get("/employees", (req, res) => {
-    dataService.getAllEmployees()
+
+    //Case /employees?status=value
+    if(req.query.status != null){
+        console.log(req.query.status);
+        dataService.getEmployeesByStatus(req.query.status)
+        .then(data => res.json(data))
+        .catch(msg => console.log(msg)); 
+    }
+    //Case /employees?department=value
+    else if (req.query.department != null){
+        console.log(req.query.department);
+        dataService.getEmployeesByDepartment(req.query.department)
+        .then(data => res.json(data))
+        .catch(msg => console.log(msg)); 
+    }
+    //Case /employees?manager=value
+    else if (req.query.manager != null){
+        console.log(req.query.manager);
+        dataService.getEmployeesByManager(req.query.manager)
+        .then(data => res.json(data))
+        .catch(msg => console.log(msg)); 
+    }
+    //Case /employees
+    else {
+        dataService.getAllEmployees()
+        .then(data => res.json(data))
+        .catch(msg => console.log(msg));   
+    }  
+});
+
+// setup route to response to /employees/value
+app.get("/employees/:value", (req, res) => {
+    dataService.getEmployeeByNum(req.params.value)
         .then(data => res.json(data))
         .catch(msg => console.log(msg));      
 });
@@ -84,29 +116,37 @@ app.get("/departments", (req, res) => {
 });
 
 
-// setup route to listen on /departments
+// setup route to listen on /images
 app.get("/images", (req, res) => { 
     dataService.getImages()
     .then(data => res.json(data))
     .catch(msg => console.log(msg))
 });
 
-// setup route to listen on /departments
+// setup route to listen on /employees/add
 app.get("/employees/add", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/addEmployee.html"));
 });
 
-// setup route to listen on /departments
+// setup route to add a new employee
+app.post("/employees/add", (req, res) => {
+    dataService.addEmployee(req.body)
+    .then( () => res.redirect("/employees"))
+    .catch(msg => console.log(msg))  
+});
+
+// setup route to listen on /images/add
 app.get("/images/add", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/addImage.html"));
 });
 
+// setup route to upload image from html input
 app.post("/images/add",  upload.single("imageFile"), (req, res) => {
     res.redirect("/images/add");
     console.log("File uploaded sucessfully");
 });
 
-// setup route to listen on /departments
+// setup route to listen on any other routes
 app.get("*", (req, res) => {
     res.status(404).send("<h1>404</h1><p>Page Not Found</p>");
 });

@@ -2,6 +2,27 @@ var employees = [];
 var departments = [];
 var fs = require("fs");
 
+
+/* helper function that received an array and pass the array
+ * through resolve() if its length is not empty and reject
+ * with an error message otherwise */
+function promise(result) {
+
+    return new Promise(
+
+        (resolve, reject) => {
+
+            //pass array through resolve() when it's not empty
+            if (result.length != 0) {
+                resolve(result);
+            }
+            //reject if array is empty with an error msg
+            else {
+                reject("No results found");
+            }
+        });
+}
+
 module.exports.initialize = () => {
 
     //return a new promise
@@ -28,61 +49,99 @@ module.exports.initialize = () => {
     });
 };
 
+//Get all employees
 module.exports.getAllEmployees = () => {
 
-    //function returns a promise
-    return new Promise(
-
-        //promise must have a resolve()
-        (resolve, reject) => {
-            if (employees.length != 0) {
-                resolve(employees);
-            }
-            else {
-                reject("No results found");
-            }
-        });
+    //call promise() and pass the global employees array
+    return promise(employees);
 };
 
+//Get an employee by employeeNum
+module.exports.getEmployeeByNum = (empNum) => {
+
+    let result = [];
+    result.push(employees.filter(e => e.employeeNum == empNum));
+
+    //call promise() and pass the result
+    return promise(result);
+};
+
+//Get employees that match the employee's status
+module.exports.getEmployeesByStatus = (empStatus) => {
+
+    var result = [];
+    result.push(employees.filter(e => e.status == empStatus));
+
+    //call promise() and pass the result
+    return promise(result);
+};
+
+//Get employees that in a department
+module.exports.getEmployeesByDepartment = (empDepartment) => {
+
+    let result = [];
+    result.push(employees.filter(e => e.department == empDepartment));
+
+    //call promise() and pass the result
+    return promise(result);
+};
+
+//Get employees that are under same manager
+module.exports.getEmployeesByManager = (empManager) => {
+
+    let result = [];
+    result.push(employees.filter(e => e.employeeManagerNum == empManager));
+
+    //call promise() and pass the result
+    return promise(result);
+};
+
+//Get employees that are managers
 module.exports.getManagers = () => {
 
-    let managers = [];
-    //function returns a promise
-    return new Promise(
+    let result = [];
+    result.push(employees.filter(e => e.isManager));
 
-        //return all managers when promise is resolved
-        (resolve, reject) => {
-            if (employees.length != 0) {
-                resolve(employees.filter(e => e.isManager));
-            }
-            else { 
-                reject("No results found");
-            }
-        });
+    //call promise() and pass the result
+    return promise(result);
 };
 
+//Get all departments
 module.exports.getDepartments = () => {
+
+    //call promise() and pass the departments
+    return promise(departments);
+};
+
+//To add a new employee
+module.exports.addEmployee = (employeeData) => {
 
     return new Promise(
 
         //return all departments when promise is resolved
         (resolve, reject) => {
-            if (departments.length != 0) {
-                resolve(departments);
+
+            if (employeeData.isManager == null) {
+                employeeData.isManager = false;
             }
             else {
-                reject("No results found");
+                employeeData.isManager = true;
             }
+
+            employeeData.employeeNum = employees.length + 1;
+            employees.push(employeeData);
+
+            resolve();
         });
 };
 
+//Get all files in the ./public/images/uploaded folder
 module.exports.getImages = () => {
 
     var imageJSON = { images: [] } ;
 
     return new Promise(
 
-        //return all departments when promise is resolved
         (resolve, reject) => {  
             fs.readdir("./public/images/uploaded", function(err, items) {
                 for (var i = 0; i < items.length; i++) {
