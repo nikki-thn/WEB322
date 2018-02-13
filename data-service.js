@@ -138,19 +138,22 @@ module.exports.addEmployee = (employeeData) => {
 //Get all files in the ./public/images/uploaded folder
 module.exports.getImages = () => {
 
-    var imageJSON = { images: [] } ;
+    var imageJSON = { images: [] };
 
     return new Promise(
 
-        (resolve, reject) => {  
-            fs.readdir("./public/images/uploaded", function(err, items) {
+        (resolve, reject) => {
+
+            fs.readdir("./public/images/uploaded", function (err, items) {
+
                 for (var i = 0; i < items.length; i++) {
                     imageJSON.images.push(items[i]);
                 }
-                if (imageJSON.length != 0){
+
+                if (imageJSON.length != 0) {
                     resolve(imageJSON);
                 }
-                else{
+                else {
                     reject("No images stored");
                 }
             });

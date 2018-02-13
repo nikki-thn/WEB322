@@ -67,21 +67,18 @@ app.get("/employees", (req, res) => {
 
     //Case /employees?status=value
     if(req.query.status != null){
-        console.log(req.query.status);
         dataService.getEmployeesByStatus(req.query.status)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
     }
     //Case /employees?department=value
     else if (req.query.department != null){
-        console.log(req.query.department);
         dataService.getEmployeesByDepartment(req.query.department)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
     }
     //Case /employees?manager=value
     else if (req.query.manager != null){
-        console.log(req.query.manager);
         dataService.getEmployeesByManager(req.query.manager)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
@@ -131,7 +128,7 @@ app.get("/employees/add", (req, res) => {
 // setup route to add a new employee
 app.post("/employees/add", (req, res) => {
     dataService.addEmployee(req.body)
-    .then( () => res.redirect("/employees"))
+    .then(() => res.redirect("/employees"))
     .catch(msg => console.log(msg))  
 });
 
