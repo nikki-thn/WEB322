@@ -2,10 +2,10 @@ var employees = [];
 var departments = [];
 var fs = require("fs");
 
-module.exports.initialize = function () {
+module.exports.initialize = () => {
 
     //return a new promise
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         //read in JSON file
         try {
@@ -28,13 +28,13 @@ module.exports.initialize = function () {
     });
 };
 
-module.exports.getAllEmployees = function () {
+module.exports.getAllEmployees = () => {
 
     //function returns a promise
     return new Promise(
 
         //promise must have a resolve()
-        function (resolve, reject) {
+        (resolve, reject) => {
             if (employees.length != 0) {
                 resolve(employees);
             }
@@ -44,20 +44,31 @@ module.exports.getAllEmployees = function () {
         });
 };
 
-module.exports.getManagers = function () {
+module.exports.getManagers = () => {
 
     let managers = [];
     //function returns a promise
     return new Promise(
 
         //return all managers when promise is resolved
-        function (resolve, reject) {
-            for (var i = 0; i < employees.length; i++) {
-                if (employees[i].isManager)
-                    managers.push(employees[i]);
+        (resolve, reject) => {
+            if (employees.length != 0) {
+                resolve(employees.filter(e => e.isManager));
             }
-            if (managers.length != 0) {
-                resolve(managers);
+            else { 
+                reject("No results found");
+            }
+        });
+};
+
+module.exports.getDepartments = () => {
+
+    return new Promise(
+
+        //return all departments when promise is resolved
+        (resolve, reject) => {
+            if (departments.length != 0) {
+                resolve(departments);
             }
             else {
                 reject("No results found");
@@ -65,18 +76,25 @@ module.exports.getManagers = function () {
         });
 };
 
-module.exports.getDepartments = function () {
+module.exports.getImages = () => {
+
+    var imageJSON = { images: [] } ;
 
     return new Promise(
 
         //return all departments when promise is resolved
-        function (resolve, reject) {
-            if (departments.length != 0) {
-                resolve(departments);
-            }
-            else {
-                reject("No results found");
-            }
+        (resolve, reject) => {  
+            fs.readdir("./public/images/uploaded", function(err, items) {
+                for (var i = 0; i < items.length; i++) {
+                    imageJSON.images.push(items[i]);
+                }
+                if (imageJSON.length != 0){
+                    resolve(imageJSON);
+                }
+                else{
+                    reject("No images stored");
+                }
+            });
         });
 };
 
@@ -93,4 +111,5 @@ module.exports.getDepartments = function () {
 // () => { //body }  //The () is mandatory even function has no parameter in arrow function
 //If function has only one statement in the body, we ca obmit the { }
 // () => statement;
+// para1 => statement //for when arrow fn has one parameter and one statement in body
 
