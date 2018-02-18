@@ -69,7 +69,7 @@ module.exports.getEmployeeByNum = (empNum) => {
 //Get employees that match the employee's status
 module.exports.getEmployeesByStatus = (empStatus) => {
 
-    var result = [];
+    let result = [];
     result.push(employees.filter(e => e.status == empStatus));
 
     //call promise() and pass the result
