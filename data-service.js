@@ -69,7 +69,7 @@ module.exports.getEmployeeByNum = (empNum) => {
 //Get employees that match the employee's status
 module.exports.getEmployeesByStatus = (empStatus) => {
 
-    let result = [];
+    var result = [];
     result.push(employees.filter(e => e.status == empStatus));
 
     //call promise() and pass the result
@@ -174,4 +174,3 @@ module.exports.getImages = () => {
 //If function has only one statement in the body, we ca obmit the { }
 // () => statement;
 // para1 => statement //for when arrow fn has one parameter and one statement in body
-

@@ -66,19 +66,19 @@ app.get("/about", (req, res) => {
 app.get("/employees", (req, res) => {
 
     //Case /employees?status=value
-    if(!req.query.status){
+    if(req.query.status != null){
         dataService.getEmployeesByStatus(req.query.status)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
     }
     //Case /employees?department=value
-    else if (!req.query.department){
+    else if (req.query.department != null){
         dataService.getEmployeesByDepartment(req.query.department)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
     }
     //Case /employees?manager=value
-    else if (!req.query.manager){
+    else if (req.query.manager != null){
         dataService.getEmployeesByManager(req.query.manager)
         .then(data => res.json(data))
         .catch(msg => console.log(msg)); 
@@ -111,6 +111,7 @@ app.get("/departments", (req, res) => {
     .then(data => res.json(data))
     .catch(msg => console.log(msg))
 });
+
 
 // setup route to listen on /images
 app.get("/images", (req, res) => { 
@@ -149,7 +150,6 @@ app.get("*", (req, res) => {
 
 // setup http server to listen on HTTP_PORT
 dataService.initialize()
-    .then(() => app.listen(HTTP_PORT, onHttpStart))
+    .then(data => app.listen(HTTP_PORT, onHttpStart))
     .catch(msg => console.log(msg));
-
 
