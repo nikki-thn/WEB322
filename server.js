@@ -112,7 +112,6 @@ app.get("/departments", (req, res) => {
     .catch(msg => console.log(msg))
 });
 
-
 // setup route to listen on /images
 app.get("/images", (req, res) => { 
     dataService.getImages()
@@ -150,6 +149,6 @@ app.get("*", (req, res) => {
 
 // setup http server to listen on HTTP_PORT
 dataService.initialize()
-    .then(data => app.listen(HTTP_PORT, onHttpStart))
+    .then(() => app.listen(HTTP_PORT, onHttpStart))
     .catch(msg => console.log(msg));
 
