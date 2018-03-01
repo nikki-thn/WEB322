@@ -160,6 +160,18 @@ module.exports.getImages = () => {
         });
 };
 
+//method to update information for an employee
+module.exports.updateEmployee = (employeeData) => {
+
+    for (var i = 0; i < employees.length; i++){
+        if(employees[i].employeeNum == employeeData.employeeNum){
+            employees[i] = employeeData;
+        }
+    }
+
+    //employees.filter(e => e.employeeManagerNum == empManager) = employeeData;
+
+}
 
 //**** Notes on ARROW FUNCTION */
 //Arrow funcstions are functions without names

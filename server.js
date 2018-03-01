@@ -10,7 +10,7 @@
 *
 * Online (Heroku) Link: https://rocky-lake-84165.herokuapp.com
 *
-********************************************************************************/ 
+********************************************************************************/
 
 
 var express = require("express");
@@ -19,7 +19,7 @@ var path = require("path");
 var dataService = require("./data-service.js");
 var multer = require("multer");
 var bodyParser = require("body-parser");
-
+var exphbs = require("express-handlebars");
 
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -33,111 +33,151 @@ function onHttpStart() {
 const storageDir = multer.diskStorage({
     destination: "./public/images/uploaded",
     filename: function (req, file, cb) {
-      // we write the filename as the current date down to the millisecond
-      cb(null, Date.now() + path.extname(file.originalname));
+        // we write the filename as the current date down to the millisecond
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
-  
+
 // tell multer to use the diskStorage function for naming files instead of the default.
-const upload = multer({ storage: storageDir});
+const upload = multer({ storage: storageDir });
+
+//for handlebars
+app.engine('.hbs', exphbs({
+    defaultLayout: 'main',
+    extname: '.hbs',
+    helpers: {
+        // helper1: function(options){
+        //     // helper without "context", ie {{#helper}} ... {{/helper}}
+        // },
+        navLink: function (url, options) {
+            return '<li' +
+                ((url == app.locals.activeRoute) ? ' class="active" ' : '') +
+                '><a href="' + url + '">' + options.fn(this) + '</a></li>';
+        },
+        equal: function (lvalue, rvalue, options) {
+            if (arguments.length < 3)
+                throw new Error("Handlebars Helper equal needs 2 parameters");
+            if (lvalue != rvalue) {
+                return options.inverse(this);
+            } else {
+                return options.fn(this);
+            }
+        }
+    }
+}));
+app.set('view engine', '.hbs');
 
 //for loading css
 app.use(express.static('public'));
+
+//to correct active path
+app.use(function (req, res, next) {
+    let route = req.baseUrl + req.path;
+    app.locals.activeRoute = (route == "/") ? "/" : route.replace(/\/$/, "");
+    next();
+});
+
 
 //to handle text-form submission from front-end
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // setup a 'route' to listen on the default url path (http://localhost)
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/home.html"));
+    res.render('home');
 });
+
+//     res.render('layouts/viewData', {
+//         data: someData
+//     });
+
 
 // setup another route to listen on /home
 app.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/home.html"));
+    res.render('home');
 });
 
 // setup another route to listen on /about
 app.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/about.html"));
+    res.render('about');
 });
 
 // setup route to listen on /employees
 app.get("/employees", (req, res) => {
 
     //Case /employees?status=value
-    if(req.query.status != null){
+    if (req.query.status != null) {
         dataService.getEmployeesByStatus(req.query.status)
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg)); 
+            .then(data => res.json(data))
+            .catch(msg => res.render({ message: "no results" }));
     }
     //Case /employees?department=value
-    else if (req.query.department != null){
+    else if (req.query.department != null) {
         dataService.getEmployeesByDepartment(req.query.department)
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg)); 
+            .then(data => res.json(data))
+            .catch(msg => console.log(msg));
     }
     //Case /employees?manager=value
-    else if (req.query.manager != null){
+    else if (req.query.manager != null) {
         dataService.getEmployeesByManager(req.query.manager)
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg)); 
+            .then(data => res.json(data))
+            .catch(msg => console.log(msg));
     }
     //Case /employees
     else {
         dataService.getAllEmployees()
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg));   
-    }  
+            .then(data => res.render('employees', { employees: data }))
+            .catch(msg => res.render({ message: "no results" }));
+    }
 });
 
 // setup route to response to /employees/value
 app.get("/employee/:value", (req, res) => {
     dataService.getEmployeeByNum(req.params.value)
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg));      
+        .then(data => {console.log(data); res.render('employee', {employee: data})})
+        .catch(msg => { message: "no results"});
 });
 
-// setup route to listen on /managers
-app.get("/managers", (req, res) => {
-    dataService.getManagers()
-        .then(data => res.json(data))
-        .catch(msg => console.log(msg));
+
+app.post("/employee/update", (req, res) => {
+    dataService.updateEmployee(req.body)
+    .then(() => res.redirect("/employees"))
+    .catch(msg => console.log(msg))
 });
+
 
 // setup route to listen on /departments
 app.get("/departments", (req, res) => {
     dataService.getDepartments()
-    .then(data => res.json(data))
-    .catch(msg => console.log(msg))
+        .then(data => res.render('departments', { departments: data }))
+        .catch(msg => res.render({ message: "no results" }));
 });
 
 // setup route to listen on /images
-app.get("/images", (req, res) => { 
+app.get("/images", (req, res) => {
     dataService.getImages()
-    .then(data => res.json(data))
-    .catch(msg => console.log(msg))
+        .then(data => res.render('images', data))
+        .catch(msg => console.log(msg))
 });
 
 // setup route to listen on /employees/add
 app.get("/employees/add", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/addEmployee.html"));
+    res.render('addEmployee');
 });
 
 // setup route to add a new employee
 app.post("/employees/add", (req, res) => {
     dataService.addEmployee(req.body)
-    .then(() => res.redirect("/employees"))
-    .catch(msg => console.log(msg))  
+        .then(() => res.redirect("/employees"))
+        .catch(msg => console.log(msg))
 });
 
 // setup route to listen on /images/add
 app.get("/images/add", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/addImage.html"));
+    res.render('addImage');
 });
 
 // setup route to upload image from html input
-app.post("/images/add",  upload.single("imageFile"), (req, res) => {
+app.post("/images/add", upload.single("imageFile"), (req, res) => {
     res.redirect("/images/add");
     console.log("File uploaded sucessfully");
 });
