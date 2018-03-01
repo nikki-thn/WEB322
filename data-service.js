@@ -163,12 +163,14 @@ module.exports.getImages = () => {
 //method to update information for an employee
 module.exports.updateEmployee = (employeeData) => {
 
+    var result = [];
     for (var i = 0; i < employees.length; i++){
         if(employees[i].employeeNum == employeeData.employeeNum){
             employees[i] = employeeData;
         }
     }
 
+    return promise(result);
     //employees.filter(e => e.employeeManagerNum == empManager) = employeeData;
 
 }
