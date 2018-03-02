@@ -12,6 +12,7 @@
 *
 ********************************************************************************/
 
+//ISSUES: employee and employee update doesn't work
 
 var express = require("express");
 var app = express();
@@ -65,6 +66,7 @@ app.engine('.hbs', exphbs({
         }
     }
 }));
+
 app.set('view engine', '.hbs');
 
 //for loading css
@@ -77,7 +79,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 //to handle text-form submission from front-end
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -85,11 +86,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.render('home');
 });
-
-//     res.render('layouts/viewData', {
-//         data: someData
-//     });
-
 
 // setup another route to listen on /home
 app.get("/home", (req, res) => {
@@ -99,6 +95,19 @@ app.get("/home", (req, res) => {
 // setup another route to listen on /about
 app.get("/about", (req, res) => {
     res.render('about');
+});
+
+// setup route to response to /employees/value
+app.get("/employee/:value", (req, res) => {
+    dataService.getEmployeeByNum(req.params.value)
+        .then(data => {console.log(data); res.render('employee', {employee: data})})
+        .catch(msg => { message: "no results"});
+});
+
+app.post("/employee/update", (req, res) => {
+    dataService.updateEmployee(req.body)
+    .then(() => res.redirect("/employees"))
+    .catch(msg => console.log(msg))
 });
 
 // setup route to listen on /employees
@@ -129,21 +138,6 @@ app.get("/employees", (req, res) => {
             .catch(msg => res.render({ message: "no results" }));
     }
 });
-
-// setup route to response to /employees/value
-app.get("/employee/:value", (req, res) => {
-    dataService.getEmployeeByNum(req.params.value)
-        .then(data => {console.log(data); res.render('employee', {employee: data})})
-        .catch(msg => { message: "no results"});
-});
-
-
-app.post("/employee/update", (req, res) => {
-    dataService.updateEmployee(req.body)
-    .then(() => res.redirect("/employees"))
-    .catch(msg => console.log(msg))
-});
-
 
 // setup route to listen on /departments
 app.get("/departments", (req, res) => {
