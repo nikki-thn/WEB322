@@ -59,11 +59,11 @@ module.exports.getAllEmployees = () => {
 //Get an employee by employeeNum
 module.exports.getEmployeeByNum = (empNum) => {
 
-    let result = [];
-    result.push(employees.filter(e => e.employeeNum == empNum));
-
+    let result = {};
+    var emps = employees.filter(e => e.employeeNum == empNum);
+    //result.firstName
     //call promise() and pass the result
-    return promise(result);
+    return promise(emps[0]);
 };
 
 //Get employees that match the employee's status

@@ -100,7 +100,7 @@ app.get("/about", (req, res) => {
 // setup route to response to /employees/value
 app.get("/employee/:value", (req, res) => {
     dataService.getEmployeeByNum(req.params.value)
-        .then(data => {console.log(data); res.render('employee', {employee: data})})
+        .then(data => {console.log(data); res.render('employee', { employee: data })})
         .catch(msg => { message: "no results"});
 });
 
@@ -160,7 +160,7 @@ app.get("/employees/add", (req, res) => {
 
 // setup route to add a new employee
 app.post("/employees/add", (req, res) => {
-    dataService.addEmployee(req.body)
+    dataService.addEmployee(req.body.name)
         .then(() => res.redirect("/employees"))
         .catch(msg => console.log(msg))
 });
