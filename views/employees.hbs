@@ -21,7 +21,7 @@
 
                     {{#each employees}}
                     <tr>
-                        <td>{{@index}} </td>
+                        <td>{{employeeNum}}</td>
                         <td>
                             <a href="/employee/{{employeeNum}}">{{firstName}} {{lastName}}</a>
                         </td>
@@ -30,7 +30,7 @@
                         </td>
                         <td>{{addressStreet}} {{addressCity}} {{addressState}} {{addressPostal}}</td>
                         <td>
-                            <a href="/employees?manager="></a>
+                            <a href="/employees?manager={{employeeManagerNum}}">{{employeeManagerNum}}</a>
                         </td>
                         <td>
                             <a href="/employees?status={{status}}">{{status}}</a>

@@ -163,16 +163,14 @@ module.exports.getImages = () => {
 //method to update information for an employee
 module.exports.updateEmployee = (employeeData) => {
 
-    var result = [];
-    for (var i = 0; i < employees.length; i++){
-        if(employees[i].employeeNum == employeeData.employeeNum){
+    for (var i = 0; i < 4; i++){
+        if (employees[i].employeeNum == employeeData.employeeNum){        
             employees[i] = employeeData;
         }
     }
 
-    return promise(result);
+    return promise(employees);
     //employees.filter(e => e.employeeManagerNum == empManager) = employeeData;
-
 }
 
 //**** Notes on ARROW FUNCTION */

@@ -6,7 +6,7 @@
 
         <form method="post" action="/employee/update">
 
-            <input type="hidden" name="employeeNum" value="{{employeeNum}}" />
+            <input type="hidden" name="employeeNum" value="{{employee.employeeNum}}" />
 
             <fieldset>
                 <legend>Personal Information</legend>
@@ -62,8 +62,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </fieldset>
 
             <fieldset>
@@ -86,13 +84,8 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            {{#unless employee.isManager}}
                             <label for="employeeManagerNum">Employee's Manager Number:</label>
-                            <input class="form-control" id="employeeManagerNum" name="employeeManagerNum" type="text" value="{{employeeManagerNum}}" />
-                            {{else}}
-                             <label for="employeeManagerNum">Employee's Manager Number:</label>
-                            <input class="form-control" id="employeeManagerNum" name="employeeManagerNum" type="text" value="" />
-                            {{/unless}}
+                            <input class="form-control" id="employeeManagerNum" name="employeeManagerNum" type="text" value="{{employee.employeeManagerNum}}" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -111,13 +104,13 @@
                         <div class="form-group">
                             <label for="department">Department</label>
                             <select class="form-control" name="department" id="department">
-                                <option value="1">1</option>
-                                <option value="2" selected>2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
+                                <option value="1">Creative Services</option>
+                                <option value="2" selected>Product Development</option>
+                                <option value="3">Marketing</option>
+                                <option value="4">Strategic Planning</option>
+                                <option value="5">Accounting</option>
+                                <option value="6">Human Resources</option>
+                                <option value="7">Quality Analysis</option>
                             </select>
                         </div>
                     </div>

@@ -9,10 +9,9 @@
 * Date: February 20, 2018
 *
 * Online (Heroku) Link: https://rocky-lake-84165.herokuapp.com
-*
 ********************************************************************************/
 
-//ISSUES: employee and employee update doesn't work
+//ISSUES: department
 
 var express = require("express");
 var app = express();
@@ -47,9 +46,6 @@ app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
     helpers: {
-        // helper1: function(options){
-        //     // helper without "context", ie {{#helper}} ... {{/helper}}
-        // },
         navLink: function (url, options) {
             return '<li' +
                 ((url == app.locals.activeRoute) ? ' class="active" ' : '') +
@@ -100,7 +96,7 @@ app.get("/about", (req, res) => {
 // setup route to response to /employees/value
 app.get("/employee/:value", (req, res) => {
     dataService.getEmployeeByNum(req.params.value)
-        .then(data => {console.log(data); res.render('employee', { employee: data })})
+        .then(data => { res.render('employee', { employee: data })})
         .catch(msg => { message: "no results"});
 });
 
