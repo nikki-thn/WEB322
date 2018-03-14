@@ -96,7 +96,9 @@ app.get("/about", (req, res) => {
 // setup route to response to /employees/value
 app.get("/employee/:value", (req, res) => {
     dataService.getEmployeeByNum(req.params.value)
-        .then(data => { res.render('employee', { employee: data })})
+        .then(data => { 
+            var departments = []
+            res.render('employee', { employee: data })})
         .catch(msg => { message: "no results"});
 });
 
