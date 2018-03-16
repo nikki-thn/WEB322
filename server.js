@@ -114,19 +114,19 @@ app.get("/employees", (req, res) => {
     //Case /employees?status=value
     if (req.query.status != null) {
         dataService.getEmployeesByStatus(req.query.status)
-            .then(data => res.json(data))
+            .then(data => res.render('employees', { employees: data }))
             .catch(msg => res.render({ message: "no results" }));
     }
     //Case /employees?department=value
     else if (req.query.department != null) {
         dataService.getEmployeesByDepartment(req.query.department)
-            .then(data => res.json(data))
+            .then(data => res.render('employees', { employees: data }))
             .catch(msg => console.log(msg));
     }
     //Case /employees?manager=value
     else if (req.query.manager != null) {
         dataService.getEmployeesByManager(req.query.manager)
-            .then(data => res.json(data))
+            .then(data => res.render('employees', { employees: data }))
             .catch(msg => console.log(msg));
     }
     //Case /employees
