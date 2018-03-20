@@ -3,9 +3,8 @@ var departments = [];
 var fs = require("fs");
 
 
-/* helper function that received an array and pass the array
- * through resolve() if its length is not empty and reject
- * with an error message otherwise */
+/* helper function that received an array and pass the array through resolve() 
+ * if its length is not empty and reject with an error message otherwise */
 function promise(result) {
 
     return new Promise(
@@ -69,8 +68,7 @@ module.exports.getEmployeeByNum = (empNum) => {
 //Get employees that match the employee's status
 module.exports.getEmployeesByStatus = (empStatus) => {
 
-    var result = [];
-    result.push(employees.filter(e => e.status == empStatus));
+    var result = employees.filter(e => e.status == empStatus);
 
     //call promise() and pass the result
     return promise(result);
@@ -79,8 +77,7 @@ module.exports.getEmployeesByStatus = (empStatus) => {
 //Get employees that in a department
 module.exports.getEmployeesByDepartment = (empDepartment) => {
 
-    let result = [];
-    result.push(employees.filter(e => e.department == empDepartment));
+    let result = employees.filter(e => e.department == empDepartment);
 
     //call promise() and pass the result
     return promise(result);
@@ -89,8 +86,7 @@ module.exports.getEmployeesByDepartment = (empDepartment) => {
 //Get employees that are under same manager
 module.exports.getEmployeesByManager = (empManager) => {
 
-    let result = [];
-    result.push(employees.filter(e => e.employeeManagerNum == empManager));
+    let result = employees.filter(e => e.employeeManagerNum == empManager);
 
     //call promise() and pass the result
     return promise(result);
@@ -99,8 +95,7 @@ module.exports.getEmployeesByManager = (empManager) => {
 //Get employees that are managers
 module.exports.getManagers = () => {
 
-    let result = [];
-    result.push(employees.filter(e => e.isManager));
+    let result = employees.filter(e => e.isManager);
 
     //call promise() and pass the result
     return promise(result);
@@ -170,7 +165,6 @@ module.exports.updateEmployee = (employeeData) => {
     }
 
     return promise(employees);
-    //employees.filter(e => e.employeeManagerNum == empManager) = employeeData;
 }
 
 //**** Notes on ARROW FUNCTION */
