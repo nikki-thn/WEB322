@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-12">
 
-        <h2>{{viewData.dataValues.firstName}} {{dataValues.lastName}} - Employee: {{viewData.employeeNum}}</h2>
+        <h2>{{viewData.employee.firstName}} {{viewData.employee.lastName}} - Employee: {{viewData.employee.employeeNum}}</h2>
         <hr />
 
         <form method="post" action="/employee/update">
 
-            <input type="hidden" name="employeeNum" value="{{dataValues.employeeNum}}" />
+            <input type="hidden" name="employeeNum" value="{{viewData.employee.employeeNum}}" />
 
             <fieldset>
                 <legend>Personal Information</legend>
@@ -14,13 +14,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="firstName">First Name:</label>
-                            <input class="form-control" id="firstName" name="firstName" type="text" value="{{employee.firstName}}" />
+                            <input class="form-control" id="firstName" name="firstName" type="text" value="{{viewData.employee.firstName}}" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="lastName">Last Name:</label>
-                            <input class="form-control" id="last_name" name="lastName" type="text" value="{{employee.lastName}}" />
+                            <input class="form-control" id="last_name" name="lastName" type="text" value="{{viewData.employee.lastName}}" />
                         </div>
                     </div>
                 </div>
@@ -28,13 +28,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input class="form-control" id="email" name="email" type="text" value="{{employee.email}}" />
+                            <input class="form-control" id="email" name="email" type="text" value="{{viewData.employee.email}}" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="SSN">Social Security Num:</label>
-                            <input class="form-control" id="SSN" name="SSN" type="text" value="{{employee.SSN}}" readonly />
+                            <input class="form-control" id="SSN" name="SSN" type="text" value="{{viewData.employee.SSN}}" readonly />
                         </div>
                     </div>
                 </div>
@@ -42,23 +42,23 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="addressStreet">Address (Street):</label>
-                            <input class="form-control" id="addressStreet" name="addressStreet" type="text" value="{{employee.addressStreet}}" />
+                            <input class="form-control" id="addressStreet" name="addressStreet" type="text" value="{{viewData.employee.addressStreet}}" />
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label for="addresCity">Address (City):</label>
-                        <input class="form-control" id="addresCity" name="addresCity" type="text" value="{{employee.addresCity}}" />
+                        <input class="form-control" id="addresCity" name="addresCity" type="text" value="{{viewData.employee.addresCity}}" />
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="addressState">Address (State):</label>
-                            <input class="form-control" id="addressState" name="addressState" type="text" value=" {{employee.addressState}}" />
+                            <input class="form-control" id="addressState" name="addressState" type="text" value=" {{viewData.employee.addressState}}" />
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="addressPostal">Address (Zip Code):</label>
-                            <input class="form-control" id="addressPostal" name="addressPostal" type="text" value="{{employee.addressPostal}}" />
+                            <input class="form-control" id="addressPostal" name="addressPostal" type="text" value="{{viewData.employee.addressPostal}}" />
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="employeeManagerNum">Employee's Manager Number:</label>
-                            <input class="form-control" id="employeeManagerNum" name="employeeManagerNum" type="text" value="{{employee.employeeManagerNum}}" />
+                            <input class="form-control" id="employeeManagerNum" name="employeeManagerNum" type="text" value="{{viewData.employee.employeeManagerNum}}" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -93,10 +93,10 @@
                             <label>Status:</label>
                             <br />
                             <label class="checkbox-inline">
-                                <input type="radio" id="statusFT" name="status" checked value="{{employee.status}}" /> Full Time
+                                <input type="radio" id="statusFT" name="status" checked value="{{viewData.employee.status}}" /> Full Time
                             </label>
                             <label class="checkbox-inline">
-                                <input type="radio" id="statusPT" name="status" value="{{employee.status}}" /> Part Time
+                                <input type="radio" id="statusPT" name="status" value="{{viewData.employee.status}}" /> Part Time
                             </label>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="hireDate">Hire Date</label>
-                            <input class="form-control" id="hireDate" name="hireDate" type="text" value="{{employee.hireDate}}" readonly />
+                            <input class="form-control" id="hireDate" name="hireDate" type="text" value="{{viewData.employee.hireDate}}" readonly />
                         </div>
                     </div>
                 </div>

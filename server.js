@@ -1,5 +1,5 @@
 /*********************************************************************************
-* WEB322 – Assignment 03
+* WEB322 – Assignment 05
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
@@ -10,8 +10,6 @@
 *
 * Online (Heroku) Link: https://rocky-lake-84165.herokuapp.com
 ********************************************************************************/
-
-//ISSUES: department
 
 var express = require("express");
 var app = express();
@@ -93,15 +91,6 @@ app.get("/about", (req, res) => {
     res.render('about');
 });
 
-// setup route to response to /employees/value
-// app.get("/employee/:value", (req, res) => {
-//     dataService.getEmployeeByNum(req.params.value)
-//         .then(data => { 
-//             var departments = []
-//             res.render('employee', { employee: data })})
-//         .catch(msg => { message: "no results"});
-// });
-
 app.get("/employee/:empNum", (req, res) => {
     // initialize an empty object to store the values
     let viewData = {};
@@ -130,7 +119,6 @@ app.get("/employee/:empNum", (req, res) => {
             if (viewData.employee == null) { // if no employee - return an error
                 res.status(404).send("Employee Not Found");
             } else {
-                console.log(viewData);
                 res.render("employee", { viewData: viewData }); // render the "employee" view
             }
         });
@@ -139,6 +127,7 @@ app.get("/employee/:empNum", (req, res) => {
 
 //to update employee
 app.post("/employee/update", (req, res) => {
+    //console.log(req.body);
     dataService.updateEmployee(req.body)
     .then(() => res.redirect("/employees"))
     .catch((err) => res.status(500).send("Unable to Update Employee"));    
@@ -212,7 +201,7 @@ app.get("/department/:value", (req, res) => {
 });
 
 //to update department
-app.post("/departments/update", (req, res) => {
+app.post("/department/update", (req, res) => {
     dataService.updateDepartment(req.body)
     .then(() => res.redirect("/departments"))
     .catch((err) => res.status(500).send("Unable to Update Department"));    

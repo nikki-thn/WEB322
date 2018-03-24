@@ -1,7 +1,12 @@
-// var employees = [];
-// var departments = [];
-var fs = require("fs");
+// const mongoose = require("mongoose");
+// const PhotoModel = require("./week8-assets/photoModel");
+// const PHOTODIRECTORY = "./week8-assets/photos/";
 
+// const config = require("./week8-assets/config");
+// const connectionString = config.database_connection_string;
+
+// use bluebird promise library with mongoose
+//mongoose.Promise = require("bluebird");
 
 const Sequelize = require('sequelize');
 
@@ -217,6 +222,19 @@ module.exports.addEmployee = (employeeData) => {
 };
 
 //To add a new employee
+module.exports.updateDepartment = (departmentData) => {
+
+    return new Promise((resolve, reject) => {
+
+        Department.update({
+            departmentName: departmentData.departmentName
+        }, {
+            where: { departmentId: departmentData.departmentId }
+        }).then(() => resolve())
+    });
+};
+
+//To add a new employee
 module.exports.addDepartment = (departmentData) => {
 
     return new Promise((resolve, reject) => {
@@ -236,13 +254,29 @@ module.exports.addDepartment = (departmentData) => {
 //method to update information for an employee
 module.exports.updateEmployee = (employeeData) => {
 
-    for (var i = 0; i < employees.length; i++) {
-        if (employees[i].employeeNum == employeeData.employeeNum) {
-            employees[i] = employeeData;
-        }
-    }
+    return new Promise((resolve, reject) => {
 
-    return promise(employees);
+        Employee.update({
+            firstName: employeeData.firstName,
+            lastName: employeeData.lastName,
+            email: employeeData.email,
+            SSN: employeeData.SSN,
+            addressStreet: employeeData.addressStreet,
+            addresCity: employeeData.addresCity,
+            addressState: employeeData.addressState,
+            addressPostal: employeeData.addressPostal,
+            maritalStatus: employeeData.maritalStatus,
+            isManager: employeeData.isManager,
+            employeeManagerNum: employeeData.employeeManagerNum,
+            status: employeeData.status,
+            department: employeeData.department,
+            hireDate: employeeData.hireDate
+        },
+            {
+                where: { employeeNum: employeeData.employeeNum }
+            }).then(() => resolve())
+
+    })
 }
 
 
@@ -282,8 +316,6 @@ module.exports.deleteEmployeeByNum = (empNum) => {
         
     })
 }
-
-
 
 
 //**** Notes on ARROW FUNCTION */
