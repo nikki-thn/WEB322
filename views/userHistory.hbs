@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
-        <h2>Departments
-            <a href="/departments/add" class="btn btn-success pull-right">Add New Department</a>
+        <h2>
+            WEB322 {{session.user.userName}} ({{session.user.email}}) History
         </h2>
         <hr />
 
@@ -9,19 +9,19 @@
             <table class="table ">
                 <thead>
                     <tr>
-                        <th>Department Number</th>
-                        <th>Department Name</th>
+                        <th>Login Date/Time</th>
+                        <th>Client Information</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    {{#each departments}}
+                    {{#each session.user.loginHistory}}
                     <tr>
                         <td>
-                            <a href="/department/{{departmentId}}">{{departmentId}}</a>
+                            {{#each session.user.loginHistory.dateTime}}
                         </td>
                         <td>
-                            <a href="/department/{{departmentId}}">{{departmentName}}</a>
+                            {{#each session.user.loginHistory.userAgent}}
                         </td>
                     </tr>
 
@@ -32,6 +32,5 @@
                     {{/each}}
                 </tbody>
             </table>
-
         </div>
     </div>
