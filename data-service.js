@@ -3,8 +3,8 @@ var fs = require("fs");
 const Sequelize = require('sequelize');
 
 // set up sequelize to point to our postgres database
-var sequelize = new Sequelize('de51vfbe33r97f', 'zxugbhftusdmlq', '5122bd5835aeca44bef49d0c756d516e202309ea51095c9b3f34d333e88b6d07', {
-    host: 'ec2-54-83-58-222.compute-1.amazonaws.com',
+var sequelize = new Sequelize('dfdoamtptvpsql', 'jifowjanpqpiij', '0f4453dd6359eb81a581f20b8b00f2b876cb413853863ba208ea33d8d8763a09', {
+    host: 'ec2-23-21-171-25.compute-1.amazonaws.com',
     dialect: 'postgres',
     port: 5432,
     dialectOptions: {
